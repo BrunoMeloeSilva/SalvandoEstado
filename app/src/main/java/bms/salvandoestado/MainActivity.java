@@ -21,8 +21,14 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        if(savedInstanceState != null){
+            nomes = savedInstanceState.getStringArrayList("nomes");
+        }else{
+            nomes = new ArrayList<>();
+        }
+
         ListView listView = (ListView) findViewById(R.id.listview);
-        nomes = new ArrayList<>();
+
         adapter = new ArrayAdapter<>(this, android.R.layout.simple_expandable_list_item_1, nomes);
         listView.setAdapter(adapter);
 
@@ -33,5 +39,12 @@ public class MainActivity extends AppCompatActivity {
         nomes.add(editText.getText().toString());
         editText.setText("");
         adapter.notifyDataSetChanged();
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+
+        outState.putStringArrayList("nomes", nomes);
     }
 }
